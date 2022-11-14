@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  output="../pages/generated/client2"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://me:1234@cluster0.rmb1qgk.mongodb.net/mdsdata?retryWrites=true&w=majority"
+}
+model trd {
+  TRD_SNO          String? 
+  TRD_TOTAL_TRADES Int     @default(0)
+  TRD_TOTAL_VOLUME Int     @default(0)
+  TRD_TOTAL_VALUE  Float @default(0.0000) 
+  TRD_LM_DATE_TIME String? 
+  id               Int     @id  @map("_id")
+}

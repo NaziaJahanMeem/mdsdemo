@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../pages/generated/client1"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:Eastisup1485@localhost:3306/mdsdata"
+}
+
+model idx {
+  IDX_INDEX_ID             String   @default("") @db.VarChar(10)
+  IDX_DATE_TIME            DateTime @default(dbgenerated("'0000-00-00 00:00:00'")) @db.DateTime(0)
+  IDX_CAPITAL_VALUE        Decimal  @default(0.00000) @db.Decimal(18, 5)
+  IDX_DEVIATION            Decimal  @default(0.00000) @db.Decimal(18, 5)
+  lDX_PERCENTAGE_DEVIATION Decimal  @default(0.00000) @db.Decimal(18, 5)
+
+  @@id([IDX_INDEX_ID, IDX_DATE_TIME])
+}
+
+model man {
+  MAN_ANNOUNCEMENT_DATE_TIME DateTime @default(dbgenerated("'0000-00-00 00:00:00'")) @db.DateTime(0)
+  MAN_ANNOUNCEMENT_PREFIX    String   @db.VarChar(12)
+  MAN_ANNOUNCEMENT           String   @db.Text
+  MAN_EXPIRY_DATE            String?  @db.VarChar(30)
+  id                         Int      @id @default(autoincrement()) @db.UnsignedInt
+}
+
+model mkistat {
+  MKISTAT_INSTRUMENT_CODE        String   @db.VarChar(10)
+  MKISTAT_INSTRUMENT_NUMBER      Int
+  MKISTAT_QUOTE_BASES            String   @default("") @db.VarChar(10)
+  MKISTAT_OPEN_PRICE             Decimal  @default(0.00) @db.Decimal(9, 2)
+  MKISTAT_PUB_LAST_TRADED_PRICE  Decimal  @default(0.00) @db.Decimal(9, 2)
+  MKISTAT_SPOT_LAST_TRADED_PRICE Decimal  @db.Decimal(8, 2)
+  MKISTAT_HIGH_PRICE             Decimal  @default(0.00) @db.Decimal(9, 2)
+  MKISTAT_LOW_PRICE              Decimal  @default(0.00) @db.Decimal(9, 2)
+  MKISTAT_CLOSE_PRICE            Decimal  @default(0.00) @db.Decimal(9, 2)
+  MKISTAT_YDAY_CLOSE_PRICE       Decimal  @default(0.00) @db.Decimal(9, 2)
+  MKISTAT_TOTAL_TRADES           Int      @default(0)
+  MKISTAT_TOTAL_VOLUME           Int      @default(0)
+  MKISTAT_TOTAL_VALUE            Decimal  @default(0.0000) @db.Decimal(18, 4)
+  MKISTAT_PUBLIC_TOTAL_TRADES    Int
+  MKISTAT_PUBLIC_TOTAL_VOLUME    Int
+  MKISTAT_PUBLIC_TOTAL_VALUE     Decimal  @db.Decimal(18, 2)
+  MKISTAT_SPOT_TOTAL_TRADES      Int
+  MKISTAT_SPOT_TOTAL_VOLUME      Int
+  MKISTAT_SPOT_TOTAL_VALUE       Decimal  @db.Decimal(18, 2)
+  MKISTAT_LM_DATE_TIME           DateTime @db.DateTime(0)
+
+  @@id([MKISTAT_INSTRUMENT_CODE, MKISTAT_LM_DATE_TIME])
+  @@index([MKISTAT_YDAY_CLOSE_PRICE], map: "MKISTAT_YDAY_CLOSE_PRICE")
+}
+
+model stats {
+  STATS_INSTRUMENT_CODE String   @default("") @db.VarChar(10)
+  STATS_BUYPRICE        Decimal  @default(0.00) @db.Decimal(15, 2)
+  STATS_BUYVOLUME       Int      @default(0)
+  STATS_BUYDVPVOLUME    Int      @default(0)
+  STATS_SELLPRICE       Decimal  @default(0.00) @db.Decimal(15, 2)
+  STATS_SELLVOLUME      Int      @default(0)
+  STATS_SELLDVPVOLUME   Int      @default(0)
+  trd_date              DateTime @default(dbgenerated("'0000-00-00'")) @db.Date
+  id                    Int      @id @default(autoincrement()) @db.UnsignedInt
+}
+
+model trd {
+  TRD_SNO          String? @db.VarChar(30)
+  TRD_TOTAL_TRADES Int     @default(0)
+  TRD_TOTAL_VOLUME Int     @default(0)
+  TRD_TOTAL_VALUE  Float?  @db.Float
+  TRD_LM_DATE_TIME String? @db.VarChar(30)
+  id               Int     @id @default(autoincrement()) @db.UnsignedInt
+}
